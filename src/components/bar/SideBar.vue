@@ -26,6 +26,10 @@
         <i class="el-icon-setting"></i>
         <span slot="title">订单管理</span>
       </el-menu-item>
+      <el-menu-item index="/parkingLotDispatch">
+        <i class="el-icon-setting"></i>
+        <span slot="title">停车场分配</span>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>

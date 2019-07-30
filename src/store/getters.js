@@ -8,8 +8,8 @@ const getters = {
   userInfo (state) {
     return state.userInfo
   },
-  orderList: (state) => (status) => {
-    return state.orderList.filter((item) => item.orderStatus === status)
+  orderList (state) {
+    return state.orderList
   },
   websocket (state) {
   return state.websocket

@@ -6,10 +6,13 @@ import ParkingBoy from "@/views/employee/ParkingBoy";
 import Manager from "@/views/employee/Manager";
 import ParkingLot from "@/views/parkinglot/ParkingLot";
 import Order from "../views/order/Order";
+import ParkingLotDispatch from "../views/dispatch/ParkingLotDispatch";
+import store from '../store'
+import socketApi from '../api/websocket'
 
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   routes: [
     {
       path: '/login',
@@ -41,7 +44,37 @@ export default new Router({
           name: 'Order',
           component: Order
         },
+        {
+          path: 'parkingLotDispatch',
+          name: 'ParkingLotDispatch',
+          component: ParkingLotDispatch
+        },
       ]
     }
   ]
 })
+
+
+router.beforeEach((to, from, next) => {
+  let isLogin = localStorage.getItem('token') !== null
+  let role = localStorage.getItem('role')
+  const whiteList = ['Login']
+  if (whiteList.indexOf(to.name) === -1) {
+    if (!isLogin) {
+      return next({path: '/login'})
+    }
+    if (localStorage.getItem('role') === 'ADMIN' && !store.getters.websocket.url) {
+      store.commit('setWebSocket', socketApi())
+    }
+  }
+  if (to.name === 'Login') {
+    if (isLogin) {
+      return next({path: '/'})
+    }else {
+      return next({path: '/login'})
+    }
+  }
+  next()
+})
+
+export default router
