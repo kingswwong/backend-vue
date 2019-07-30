@@ -2,6 +2,7 @@ const state = {
   token: '',
   role: '',
   userInfo: {},
+  orderList: [],
   websocket: {}
 }
 

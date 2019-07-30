@@ -3,9 +3,8 @@ let websock = null
 let globalCallback = null
 
 // 初始化weosocket
-const sockApi = (userId) => {
-  // ws地址 -->这里是你的请求路径
-  const ws = 'ws://localhost:8090/websocket/' + userId + '/orders'
+const sockApi = () => {
+  const ws = 'ws://localhost:8090/websocket/expiry'
   websock = new WebSocket(ws)
   websock.onmessage = function (e) {
     websocketonmessage(e)
@@ -27,6 +26,7 @@ const sockApi = (userId) => {
 
 // 数据接收
 function websocketonmessage (e) {
+  console.log("接到紧急订单" + e.data)
   store.dispatch('pushOrderById', e.data)
 }
 
@@ -37,7 +37,8 @@ function websocketclose (e) {
 
 // 创建 websocket 连接
 function websocketOpen (e) {
-  console.log('连接成功')
+  console.log(e)
+  console.log('连接成功' )
 }
 
 export default sockApi

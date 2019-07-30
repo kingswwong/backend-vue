@@ -1,5 +1,7 @@
 import {login} from '../api/users'
-import router, {adminRouter, sysadminRouter} from '../router'
+import router from '../router'
+import {getByOrderId} from "../api/admin/order";
+
 const actions = {
   userLogin (context, userForm) {
     return new Promise((resolve, reject) => {
@@ -23,6 +25,9 @@ const actions = {
       localStorage.removeItem('userInfo')
       resolve()
     })
+  },
+  pushOrderById (context, id) {
+    getByOrderId(id).then((res) => context.commit('pushOrder', res))
   }
 }
 

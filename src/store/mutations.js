@@ -14,6 +14,9 @@ const mutations = {
   setRole (state, role) {
     state.role = role
   },
+  pushOrder (state, order) {
+    state.orderList.push(order)
+  },
   setWebSocket (state, websocket) {
     state.websocket = websocket
   }

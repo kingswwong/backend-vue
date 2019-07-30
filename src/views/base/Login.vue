@@ -28,6 +28,10 @@
       login () {
         this.$store.dispatch('userLogin', this.userForm).then(() => {
           this.$router.push({path: '/'})
+          let role = localStorage.getItem('role')
+          if (localStorage.getItem('role') === 'ADMIN') {
+            this.$store.commit('setWebSocket', this.socketApi())
+          }
         })
       }
     }
