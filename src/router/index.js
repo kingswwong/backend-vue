@@ -5,6 +5,7 @@ import Home from '@/views/base/Home'
 import ParkingBoy from "@/views/employee/ParkingBoy";
 import Manager from "@/views/employee/Manager";
 import ParkingLot from "@/views/parkinglot/ParkingLot";
+import Order from "../views/order/Order";
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
           path: 'parkingLot',
           name: 'ParkingLot',
           component: ParkingLot
+        },
+        {
+          path: 'order',
+          name: 'Order',
+          component: Order
         },
       ]
     }

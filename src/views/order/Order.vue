@@ -1,85 +1,95 @@
 <template>
-  <div id="parkingLot">
-    <el-row>
-      <el-col :span="12" :offset="12" style="height: 100px"><el-button type="primary" @click="add">添加</el-button></el-col>
-    </el-row>
+  <div id="order">
     <el-table
-      :data="parkingLotList"
+      :data="orderList"
       style="width: 100%">
       <el-table-column
         prop="id"
         label="ID"
-        width="400"
+        width="300"
       >
       </el-table-column>
       <el-table-column
-        prop="parkingLotName"
-        label="停车场名称"
-        width="400">
+        prop="orderStatus"
+        label="状态">
       </el-table-column>
       <el-table-column
-        prop="capacity"
-        width="400"
-        label="容量">
+        prop="createTime"
+        label="开始时间">
       </el-table-column>
+      <el-table-column
+        prop="endTime"
+        label="结束时间">
+      </el-table-column>
+      <el-table-column
+        prop="user.username"
+        label="用户">
+      </el-table-column>
+      <el-table-column
+        prop="carNumber"
+        label="车辆">
+      </el-table-column>
+      <el-table-column
+        prop="parkingBoy.username"
+        label="停车员">
+      </el-table-column>
+
       <el-table-column
         fixed="right"
         label="操作"
-        width="400">
+        width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row.id)" type="text" size="small">修改</el-button>
-          <el-button type="text" size="small" @click="deleteItem(scope.row.id)">删除</el-button>
+          <!--<el-button @click="edit(scope.row.id)" type="text" size="small">查看</el-button>-->
+          <el-button type="text" size="small" @click="">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       layout="prev, pager, next"
-      :total="totalElements"  @current-change="handleCurrentChange" :current-page="currentPage">
+      :total="totalElements" @current-change="handleCurrentChange" :current-page="currentPage">
     </el-pagination>
-    <ParkingLotDialog ref="plDialog" @refresh="refresh"/>
   </div>
 
 </template>
 
 <script>
-  import ParkingLotDialog from "@/components/dialog/ParkingLotDialog";
-  import {findAllParkingLot, updataParkingLot, deleteParkingLotById} from "@/api/sysadmin/parkingLot";
+
+
+  import {findAllOrder} from "../../api/sysadmin/order";
 
   export default {
-    name: "ParkingLot",
-    components: {ParkingLotDialog},
-    data(){
-      return{
-        parkingLotList: [],
+    name: "Order",
+    data() {
+      return {
+        orderList: [],
         totalElements: 0,
         currentPage: 1
       }
     },
-    mounted(){
-      this.findAllParkingLot(1)
+    mounted() {
+      this.findAllOrder(1)
     },
     methods: {
-      handleCurrentChange(val){
-        findAllParkingLot(val).then((res) => {
+      handleCurrentChange(val) {
+        findAllOrder(val).then((res) => {
           this.currentPage = val
           this.totalElements = res.totalElements
-          this.parkingLotList = res.content
+          this.orderList = res.content
         })
       },
-      add(){
+      add() {
         this.$refs.plDialog.showDialog("")
       },
-      findAllParkingLot(page){
-        findAllParkingLot(page).then((res) => {
+      findAllOrder(page) {
+        findAllOrder(page).then((res) => {
           this.totalElements = res.totalElements
-          this.parkingLotList = res.content
+          this.orderList = res.content
         })
       },
-      edit(id) {
-        this.$refs.plDialog.showDialog(id)
-      },
+      // edit(id) {
+      //   this.$refs.plDialog.showDialog(id)
+      // },
       deleteItem(id) {
-        console.log(id)
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -100,9 +110,9 @@
           });
         });
       },
-      refresh(){
+      refresh() {
         // this.currentPage = (this.totalElements + 1) >= (this.currentPage - 1) * 10 + 1 ? this.currentPage + 1 : this.currentPage
-        this.findAllParkingLot(1)
+        this.findAllOrder(1)
       }
     }
 

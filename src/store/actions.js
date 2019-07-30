@@ -1,4 +1,5 @@
 import {login} from '../api/users'
+import router, {adminRouter, sysadminRouter} from '../router'
 const actions = {
   userLogin (context, userForm) {
     return new Promise((resolve, reject) => {
